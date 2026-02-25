@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import {
   ConnectionQuality,
@@ -201,7 +202,7 @@ export const LiveAvatarContextProvider = ({
   // Default voice chat on
   const config = {
     voiceChat: voiceChatConfig,
-    apiUrl: process.env.API_URL,
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,
   };
   const sessionRef = useRef<LiveAvatarSession>(new LiveAvatarSession(sessionAccessToken, config));
   const { sessionState, isStreamReady, connectionQuality } = useSessionState(sessionRef);
