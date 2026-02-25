@@ -1,0 +1,36 @@
+@use '../styles/variables' as *;
+@use '../styles/mixin' as *;
+
+.cardcontainer {
+  margin: 5px;
+}
+.container-div {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+.elipsiscard {
+  display: -webkit-box; // Required for multi-line truncation
+  -webkit-line-clamp: 2; // Number of lines to show
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal; // Adjust according to your font-size
+  height: 46px;
+  max-height: 50px; // line-height * number of lines
+  word-break: break-word;
+}
+.imagediv {
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+  display: block;
+}
+
+.product-card {
+  &:hover {
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    .imagediv {
+      transform: scale(1.09);
+    }
+  }
+}

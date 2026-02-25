@@ -1,0 +1,22 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixin' as *;
+.filter-container {
+  position: sticky;
+  top: 4rem;
+  z-index: 10;
+  .filterIcon {
+    cursor: pointer;
+  }
+}
+.filterText {
+  display: flex;
+  align-items: center;
+  gap: 5%;
+}
+.filterIcon {
+  color: $primary-color;
+}
+.buttonDiv {
+  display: flex;
+  justify-content: end;
+}

@@ -1,0 +1,129 @@
+@use '../../app/styles/variables' as *;
+@use '../../app/styles/mixin' as *;
+
+.chat-header {
+  background-color: $secondary-color;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+/* Floating Button */
+.floatingWrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.floatingButton {
+  background: rgba(255, 140, 0, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.floatingButton:hover {
+  transform: scale(1.1);
+}
+
+/* Glass Container */
+.glassContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 360px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* Header */
+.chatHeader {
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.85), rgba(255, 94, 0, 0.85));
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Message Bubbles */
+.userBubble {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 140, 0, 0.85);
+  color: white;
+  backdrop-filter: blur(8px);
+}
+
+.agentBubble {
+  align-self: flex-start;
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.35);
+  color: #111;
+  backdrop-filter: blur(8px);
+}
+
+/* Status Bubble */
+.statusBubble {
+  align-self: center;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  opacity: 0.9;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Glass Input */
+.glassInput input {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.glassInput input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Icon Buttons */
+.iconButton {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.iconButton:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.muted {
+  background: rgba(255, 0, 0, 0.6);
+}
+
+.active {
+  background: rgba(0, 200, 100, 0.6);
+}
+
+.endCall {
+  background: rgba(255, 0, 0, 0.8);
+}

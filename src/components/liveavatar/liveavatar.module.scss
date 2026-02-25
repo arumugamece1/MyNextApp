@@ -1,0 +1,83 @@
+@use '../../app/styles/variables' as *;
+@use '../../app/styles/mixin' as *;
+
+.avatarContainer {
+  background: var(--bg-gradient);
+  position: fixed;
+  inset: 0;
+  .glassContainer {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-elevated);
+    position: fixed;
+    bottom: 1%;
+    left: 1%;
+    right: 1%;
+    height: calc(100vh - 20px);
+    width: 98vw;
+    padding: 10px;
+    z-index: 9999;
+    // background: rgba(255, 255, 255, 0.15);
+    // backdrop-filter: blur(18px);
+    // -webkit-backdrop-filter: blur(18px);
+    // border: 1px solid rgba(255, 255, 255, 0.25);
+    // border-radius: 10px;
+    // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  }
+  .fullmodeContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .mainContainer {
+    display: grid;
+    grid-template-columns: 2.8fr 1.2fr;
+    gap: 1%;
+    height: 100%;
+    .videoContainer {
+      border-radius: 10px;
+      // padding: 5px;
+    }
+    .chatContainer {
+      // border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      height: fit-content;
+      //   padding: 5px;
+    }
+  }
+}
+// Video Component
+.videoElement {
+  width: 100%;
+  height: calc(100vh - 38px);
+  border-radius: 10px;
+  object-fit: cover;
+}
+.videoBox {
+  position: relative;
+}
+.connectionStatus {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate();
+  padding: 10px 14px;
+  background: #00000066;
+  backdrop-filter: blur(12px);
+
+  border-bottom-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  color: white;
+}
+.connectionEndBtn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+}
+.loadingDiv {
+  height: calc(100vh - 38px);
+}

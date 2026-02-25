@@ -1,0 +1,17 @@
+// APP Primary Color
+$primary-color: #0e7490;
+$primary-hover: #0c82a3;
+$secondary-color: #f97415; // #e64980
+$bg-dark: #0f172a;
+$text-light: #ffffff;
+$text-muted: #94a3b8;
+
+$font-xl: 4rem;
+$font-md: 1.2rem;
+
+.primary-btn {
+  background-color: $primary-color;
+  &:hover {
+    background-color: $primary-hover;
+  }
+}

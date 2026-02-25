@@ -1,0 +1,31 @@
+@use './styles/variables' as *;
+@use './styles/mixin' as *;
+
+.container {
+  @include center-flex;
+  flex-direction: column;
+  height: 90vh;
+  text-align: center;
+}
+.text {
+  margin-bottom: 20px;
+}
+.title {
+  font-size: $font-xl;
+  font-weight: bold;
+}
+
+.message {
+  font-size: $font-md;
+  color: $text-muted;
+  margin-bottom: 20px;
+}
+
+.button {
+  @include button-style;
+  background-color: $primary-color;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
+}

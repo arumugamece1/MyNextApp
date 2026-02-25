@@ -1,0 +1,103 @@
+.glassContainer {
+  height: calc(100vh - 38px);
+  display: flex;
+  flex-direction: column;
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-elevated);
+  transition: all 0.3s ease;
+}
+
+/* Header */
+.chatHeader {
+  background: var(--chat-header);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* User Bubble */
+.userBubble {
+  align-self: flex-end;
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 16px;
+
+  background: var(--bubble-user);
+  color: var(--text-white);
+
+  backdrop-filter: blur(8px);
+}
+
+/* Agent Bubble */
+.agentBubble {
+  align-self: flex-start;
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 16px;
+
+  background: var(--bubble-agent);
+  color: var(--text-primary);
+
+  backdrop-filter: blur(10px);
+}
+
+/* Status Bubble */
+.statusBubble {
+  align-self: center;
+  padding: 6px 12px;
+  border-radius: 12px;
+
+  background: var(--bubble-agent);
+  color: var(--text-primary);
+
+  backdrop-filter: blur(8px);
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--glass-border);
+}
+
+/* Glass Input */
+.glassInput input {
+  background: var(--input-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.glassInput input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Icon Buttons */
+.iconButton {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.iconButton:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.muted {
+  background: rgba(255, 0, 0, 0.6);
+  color: white;
+}
+
+.active {
+  background: rgba(0, 200, 100, 0.6);
+  color: white;
+}
+
+.endCall {
+  background: rgba(255, 0, 0, 0.85);
+  color: white;
+}
