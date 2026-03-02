@@ -160,6 +160,7 @@ export function ChatWidget() {
       {!isWidgetOpen && (
         <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 9999 }}>
           <ActionIcon
+            aria-label="Open chat"
             size={60}
             radius="xl"
             variant="filled"

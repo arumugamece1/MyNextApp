@@ -1,19 +1,3 @@
-// 'use client';
-// import { MantineProvider } from '@mantine/core';
-// import { Notifications } from '@mantine/notifications';
-// import '@mantine/core/styles.css';
-
-// export default function Providers({ children }: { children: React.ReactNode }) {
-//   return (
-//     <div>
-//       <MantineProvider>
-//         <Notifications />
-//         {children}
-//       </MantineProvider>
-//     </div>
-//   );
-// }
-
 'use client';
 
 import { MantineProvider } from '@mantine/core';
@@ -49,6 +33,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
       {/* Theme Toggle Button */}
       <ActionIcon
+        aria-label="Toggle theme"
         onClick={toggleTheme}
         size="lg"
         color="white"

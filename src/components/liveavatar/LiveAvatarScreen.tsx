@@ -46,14 +46,13 @@ const LiveAvatarSessionComponent: React.FC<{
   useEffect(() => {
     if (sessionState === SessionState.INACTIVE) {
       startSession();
-    } else {
+    } else if (connectionQuality === 'GOOD') {
       toggle();
       onAvatarConnected();
     }
-  }, [startSession, sessionState]);
+  }, [startSession, sessionState, connectionQuality]);
   useEffect(() => {
     if (!chatMessage) return;
-    console.log('message from chat', chatMessage);
     repeat(chatMessage);
   }, [chatMessage]);
 

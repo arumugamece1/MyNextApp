@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import {
   IconX,
@@ -16,6 +17,7 @@ import {
   IconMicrophone,
   IconPhoneOutgoing,
   IconPhoneOff,
+  IconFileUpload,
 } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classes from '@/components/chat/chatnew.module.scss';
@@ -51,7 +53,9 @@ export const ChatNew: React.FC<ChatNewProps> = React.memo(
     const [isVoiceMode, setIsVoiceMode] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const viewportRef = useRef<HTMLDivElement>(null);
-
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState<any>(null);
     // Auto Scroll
     useEffect(() => {
       viewportRef.current?.scrollTo({
@@ -82,7 +86,45 @@ export const ChatNew: React.FC<ChatNewProps> = React.memo(
       setInput('');
       setIsTyping(false);
     };
+    const handleUploadImage = () => {
+      fileInputRef.current?.click();
+    };
+    const fileToDataUrl = (file: File) =>
+      new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const dataUrl = await fileToDataUrl(file);
+      // Validate type
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload a valid image.');
+        return;
+      }
 
+      // Validate size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image must be under 5MB.');
+        return;
+      }
+
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const res = await fetch('/api/openai-image', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      setResult(data);
+      setLoading(false);
+    };
     const startVoice = async () => {
       try {
         await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -173,7 +215,23 @@ export const ChatNew: React.FC<ChatNewProps> = React.memo(
             <ActionIcon className={classes.iconButton} onClick={handleSend} disabled={isSpeaking}>
               <IconSend size={18} />
             </ActionIcon>
-
+            <Tooltip label="Image Upload" target="#image-upload"></Tooltip>
+            {/* Hidden File Input */}
+            <input
+              type="file"
+              accept="image/png, image/jpeg, image/webp"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+            <ActionIcon
+              className={classes.iconButton}
+              onClick={handleUploadImage}
+              disabled={isSpeaking || loading}
+              id="image-upload"
+            >
+              <IconFileUpload size={18} />
+            </ActionIcon>
             {!isVoiceMode ? (
               <ActionIcon className={classes.iconButton} onClick={handleToggleVoice}>
                 <IconPhoneOutgoing size={18} />

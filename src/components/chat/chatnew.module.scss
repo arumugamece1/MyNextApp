@@ -63,7 +63,7 @@
 
 /* Glass Input */
 .glassInput input {
-  background: var(--input-bg);
+  background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
