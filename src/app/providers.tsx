@@ -28,7 +28,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <MantineProvider>
+    <MantineProvider forceColorScheme={colorScheme}>
       <Notifications />
 
       {/* Theme Toggle Button */}

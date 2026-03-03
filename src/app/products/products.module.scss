@@ -1,12 +1,99 @@
 @use '../styles/variables' as *;
 @use '../styles/mixin' as *;
 
+/* -----------------------------
+   Glass theme tokens (global)
+------------------------------ */
+:global(:root) {
+  --glass-blur: 18px;
+
+  --glass-bg: rgba(255, 255, 255, 0.14);
+  --glass-bg-strong: rgba(255, 255, 255, 0.22);
+
+  --glass-border: rgba(255, 255, 255, 0.38);
+
+  --glass-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
+  --glass-shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+  --glass-radius: 10px;
+  --glass-radius-sm: 14px;
+
+  --text-1: rgba(17, 24, 39, 0.92);
+  --text-2: rgba(17, 24, 39, 0.7);
+
+  --ring: rgba(56, 189, 248, 0.35);
+}
+
+/* Subtle background glow (keeps layout intact, only visual) */
+:global(body) {
+  background:
+    radial-gradient(900px 420px at 12% -10%, rgba(56, 189, 248, 0.14), transparent 60%),
+    radial-gradient(850px 460px at 92% 0%, rgba(99, 102, 241, 0.12), transparent 55%),
+    radial-gradient(900px 520px at 55% 115%, rgba(16, 185, 129, 0.1), transparent 55%), #f7f8fb;
+}
+:global(html[data-theme='dark']) {
+  color-scheme: dark;
+
+  --glass-bg: rgba(17, 24, 39, 0.34);
+  --glass-bg-strong: rgba(17, 24, 39, 0.46);
+
+  --glass-border: rgba(255, 255, 255, 0.14);
+
+  --glass-shadow: 0 18px 46px rgba(0, 0, 0, 0.5);
+  --glass-shadow-sm: 0 12px 28px rgba(0, 0, 0, 0.42);
+
+  --text-1: rgba(255, 255, 255, 0.92);
+  --text-2: rgba(255, 255, 255, 0.7);
+
+  --ring: rgba(56, 189, 248, 0.28);
+
+  --input-bg: rgba(255, 255, 255, 0.08);
+  --input-border: rgba(255, 255, 255, 0.14);
+  --placeholder: rgba(255, 255, 255, 0.42);
+}
+
+:global(html[data-theme='dark'] body) {
+  background:
+    radial-gradient(950px 520px at 10% -15%, rgba(56, 189, 248, 0.16), transparent 58%),
+    radial-gradient(950px 520px at 95% 0%, rgba(99, 102, 241, 0.14), transparent 56%),
+    radial-gradient(980px 560px at 55% 120%, rgba(16, 185, 129, 0.12), transparent 58%), #0b1220;
+}
+/* Backdrop blur fallback */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :global(:root) {
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-bg-strong: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(17, 24, 39, 0.1);
+  }
+}
+
+/* -----------------------------
+   Reusable glass surfaces
+------------------------------ */
+.glassCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow-sm);
+
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.singleContainer {
+  /* purely visual; spacing unchanged in JSX */
+}
+
+/* -----------------------------
+   Existing styles (kept) + glass tweaks
+------------------------------ */
 .cardcontainer {
   margin: 5px;
 }
 .container-div {
   display: grid;
   grid-template-columns: 1fr 4fr;
+  gap: 1%;
 }
 .elipsiscard {
   display: -webkit-box; // Required for multi-line truncation
@@ -26,9 +113,16 @@
 }
 
 .product-card {
+  /* glass baseline (applies only if your JSX already uses .product-card) */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow-sm);
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+
   &:hover {
-    box-shadow:
-      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--glass-shadow);
     .imagediv {
       transform: scale(1.09);
     }

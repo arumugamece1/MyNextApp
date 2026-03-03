@@ -7,7 +7,7 @@
   inset: 0;
   .glassContainer {
     background: var(--glass-bg);
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px) !important;
     border: 1px solid var(--glass-border);
     border-radius: 10px;
     box-shadow: var(--shadow-elevated);
@@ -66,7 +66,7 @@
   transform: translate();
   padding: 10px 14px;
   background: #00000066;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) !important;
 
   border-bottom-left-radius: 12px;
   border-top-right-radius: 12px;

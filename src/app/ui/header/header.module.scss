@@ -2,14 +2,102 @@
 .header {
   padding: 10px;
   position: sticky;
-  top: 0;
+  top: 20px;
   z-index: 9999;
-  background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-sm);
+  background: var(--glass-bg-strong); /* slightly stronger rgba(255, 255, 255, 0.28) */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
+  height: 60px;
+  margin-left: 60px;
+  margin-right: 60px;
+  border-radius: 10px;
 }
+
 .header-text {
-  color: $primary-color;
+  color: var(--text-1);
   cursor: pointer;
   display: flex;
   align-items: center;
+  gap: 10px;
+  letter-spacing: 0.2px;
+
+  /* Keep your brand accent subtly */
+  svg {
+    color: $primary-color;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.1));
+  }
+}
+
+.navLink {
+  color: var(--text-2);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    color: var(--text-1);
+  }
+}
+
+/* Mantine TextInput glass styling via wrapper class */
+.search {
+  :global(.mantine-TextInput-input) {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--glass-radius-sm);
+    color: var(--text-1);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.75)) !important;
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.75));
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background 160ms ease;
+
+    &::placeholder {
+      color: var(--placeholder);
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow:
+        0 0 0 4px var(--ring),
+        0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  :global(.mantine-TextInput-section) {
+    color: rgba(17, 24, 39, 0.55);
+  }
+}
+
+.primary-btn {
+  border-radius: var(--glass-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  background: linear-gradient(135deg, rgba($primary-color, 0.92), rgba($primary-color, 0.72));
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    filter 140ms ease;
+
+  &:hover {
+    filter: brightness(1.02);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  :global(span) {
+    /* Mantine button inner label */
+    color: rgba(255, 255, 255, 0.94);
+    font-weight: 600;
+  }
 }

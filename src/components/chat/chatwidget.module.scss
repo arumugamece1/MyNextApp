@@ -1,10 +1,13 @@
 @use '../../app/styles/variables' as *;
 @use '../../app/styles/mixin' as *;
 
-.chat-header {
-  background-color: $secondary-color;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+/* Backdrop blur fallback */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :global(:root) {
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-bg-strong: rgba(255, 255, 255, 0.94);
+    --glass-border: rgba(17, 24, 39, 0.1);
+  }
 }
 
 /* Floating Button */
@@ -16,19 +19,28 @@
 }
 
 .floatingButton {
-  background: rgba(255, 140, 0, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: white;
-  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
-  transition: all 0.3s ease;
+  /* Match app primary (teal) */
+  background: linear-gradient(135deg, rgba($primary-color, 0.92), rgba($primary-color, 0.74));
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(calc(var(--glass-blur, 18px) * 0.7));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur, 18px) * 0.7));
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
 }
 
 .floatingButton:hover {
-  transform: scale(1.1);
+  transform: translateY(-2px);
+  filter: brightness(1.02);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
 }
 
-/* Glass Container */
+/* Main Glass Container */
 .glassContainer {
   position: fixed;
   bottom: 20px;
@@ -39,91 +51,187 @@
   flex-direction: column;
   z-index: 9999;
 
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  /* Match your card surfaces */
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
   border-radius: 20px;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
 
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
+
+  overflow: hidden;
+}
+:global(html[data-theme='dark']) .agentBubble {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--text-1);
 }
 
+:global(html[data-theme='dark']) .iconButton {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.86);
+}
 /* Header */
 .chatHeader {
-  background: linear-gradient(135deg, rgba(255, 140, 0, 0.85), rgba(255, 94, 0, 0.85));
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  /* Teal glass header (not orange) */
+  background: linear-gradient(135deg, rgba($primary-color, 0.92), rgba($primary-color, 0.7));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+
+  backdrop-filter: blur(calc(var(--glass-blur, 18px) * 0.75)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur, 18px) * 0.75));
+}
+
+.headerTitle {
+  color: rgba(255, 255, 255, 0.96);
+  letter-spacing: 0.2px;
+}
+
+.headerClose {
+  color: rgba(255, 255, 255, 0.92);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
 }
 
 /* Message Bubbles */
 .userBubble {
   align-self: flex-end;
   max-width: 80%;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 16px;
-  background: rgba(255, 140, 0, 0.85);
-  color: white;
-  backdrop-filter: blur(8px);
+
+  /* User messages follow primary (teal) */
+  background: rgba($primary-color, 0.84);
+  color: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .agentBubble {
   align-self: flex-start;
   max-width: 80%;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.35);
-  color: #111;
-  backdrop-filter: blur(8px);
+
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--text-1, rgba(17, 24, 39, 0.92));
+
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* Status Bubble */
 .statusBubble {
   align-self: center;
   padding: 6px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(8px);
-  opacity: 0.9;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.32);
+  color: var(--text-2, rgba(17, 24, 39, 0.7));
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0.95;
 }
 
 /* Footer */
 .footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+
+  /* Slightly stronger than body so input stands out */
+  background: rgba(255, 255, 255, 0.14);
+
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Glass Input */
-.glassInput input {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
+/* Glass Input (Mantine input inside) */
+.glassInput :global(.mantine-TextInput-input) {
+  background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  border-radius: 12px;
+
+  color: var(--text-1, rgba(17, 24, 39, 0.92));
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
-.glassInput input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+.glassInput :global(.mantine-TextInput-input)::placeholder {
+  color: rgba(17, 24, 39, 0.45);
+}
+
+.glassInput :global(.mantine-TextInput-input:focus),
+.glassInput :global(.mantine-TextInput-input:focus-visible) {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow:
+    0 0 0 4px var(--ring, rgba(56, 189, 248, 0.35)),
+    0 12px 26px rgba(0, 0, 0, 0.12);
 }
 
 /* Icon Buttons */
 .iconButton {
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: white;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(17, 24, 39, 0.82);
+
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform 140ms ease,
+    filter 140ms ease,
+    box-shadow 140ms ease,
+    background 140ms ease;
 }
 
 .iconButton:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
 }
 
+.iconButton:active {
+  transform: translateY(1px);
+}
+
+/* Voice states */
 .muted {
-  background: rgba(255, 0, 0, 0.6);
+  background: rgba(239, 68, 68, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .active {
-  background: rgba(0, 200, 100, 0.6);
+  background: rgba(34, 197, 94, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .endCall {
-  background: rgba(255, 0, 0, 0.8);
+  background: rgba(239, 68, 68, 0.28);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.22);
 }

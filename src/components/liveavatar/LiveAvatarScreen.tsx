@@ -92,10 +92,7 @@ const LiveAvatarSessionComponent: React.FC<{
             )}
           </div>
           <p>Connection quality: {connectionQuality}</p>
-          {(mode === 'FULL' || mode === 'FULL_PTT') && (
-            <p>User talking: {isUserTalking ? 'true' : 'false'}</p>
-          )}
-          <p>Avatar talking: {isAvatarTalking ? 'true' : 'false'}</p>
+          {/* <p>Avatar talking: {isAvatarTalking ? 'true' : 'false'}</p> */}
         </div>
       </Box>
     </div>

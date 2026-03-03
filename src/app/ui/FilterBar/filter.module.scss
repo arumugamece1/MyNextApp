@@ -2,20 +2,120 @@
 @use '../../styles/mixin' as *;
 .filter-container {
   position: sticky;
-  top: 4rem;
+  top: 6rem;
   z-index: 10;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow-sm);
+
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+
+  /* keep layout behavior; only visual padding refinement */
+  padding: 14px;
+
   .filterIcon {
     cursor: pointer;
   }
+  :global(html[data-theme='dark']) & {
+    :global(.mantine-Radio-radio) {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    :global(.mantine-RangeSlider-track) {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    :global(.mantine-RangeSlider-thumb) {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+  }
+  /* Radios: increase contrast so the circles are visible on glass */
+  :global(.mantine-Radio-radio) {
+    border-color: rgba(17, 24, 39, 0.28); /* darker border */
+    // background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.7)) !important;
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.7));
+  }
+
+  :global(.mantine-Radio-radio[data-checked='true']) {
+    border-color: rgba(56, 189, 248, 0.7) !important;
+    box-shadow:
+      0 0 0 4px rgba(56, 189, 248, 0.18),
+      0 10px 22px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Range slider track: slightly taller + clearer */
+  :global(.mantine-RangeSlider-track) {
+    height: 8px; /* helps visibility on mobile */
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(17, 24, 39, 0.1);
+    border-radius: 999px;
+  }
+
+  :global(.mantine-RangeSlider-bar) {
+    height: 8px;
+    background: rgba($primary-color, 0.7);
+    border-radius: 999px;
+  }
+
+  /* Range slider thumbs: bigger + stronger border/shadow so they don’t disappear */
+  :global(.mantine-RangeSlider-thumb) {
+    width: 20px;
+    height: 20px;
+
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(17, 24, 39, 0.22);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.6)) !important;
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.6));
+  }
+
+  :global(.mantine-RangeSlider-thumb:hover) {
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+  }
+  :global(.mantine-Radio-labelWrapper) {
+    text-transform: capitalize;
+  }
+  :global(.mantine-RangeSlider-thumb:focus),
+  :global(.mantine-RangeSlider-thumb:focus-visible) {
+    outline: none;
+    box-shadow:
+      0 0 0 4px var(--ring),
+      0 16px 34px rgba(0, 0, 0, 0.22);
+  }
+  /* Reset button (outline) -> glassy outline */
+  :global(button.mantine-Button-root) {
+    border-radius: 12px;
+  }
+
+  :global(button.mantine-Button-root[data-variant='outline']) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.34);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+  }
 }
+
 .filterText {
   display: flex;
   align-items: center;
   gap: 5%;
 }
+
 .filterIcon {
   color: $primary-color;
 }
+
 .buttonDiv {
   display: flex;
   justify-content: end;
