@@ -92,7 +92,7 @@ export const LiveAvatarVideo = () => {
   const handleAvatarConnected = async () => {
     try {
       await conversation.startSession({
-        agentId: 'agent_5001kj9hkhsrege9nd5kn0fkeewm',
+        agentId: 'agent_0101kjs4zjkaeheabyj81h4v12gn',
         connectionType: 'websocket',
       });
 

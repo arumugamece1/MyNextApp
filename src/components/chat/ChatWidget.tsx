@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import {
   IconMessageCircle,
@@ -22,6 +23,7 @@ import {
 import { useConversation } from '@elevenlabs/react';
 import { useEffect, useRef, useState } from 'react';
 import classes from '@/components/chat/chatwidget.module.scss';
+
 type ChatMessage = {
   role: 'user' | 'agent';
   message: string;
@@ -61,30 +63,26 @@ export function ChatWidget() {
       }
     },
     micMuted,
-    //  textOnly: true, // Text only mode No voice
   });
 
-  // Auto scroll
   useEffect(() => {
     viewportRef.current?.scrollTo({
       top: viewportRef.current.scrollHeight,
       behavior: 'smooth',
     });
   }, [messages]);
-  // Start session ONLY when widget opens
+
   useEffect(() => {
-    console.log('ssss', conversation.status);
     if (!isWidgetOpen) return;
     if (conversation.status === 'disconnected') {
       conversation.startSession({
-        agentId: 'agent_5101kht2akjtefw81my73yshmj0e', //agent_5401khrf019kfdqv0g8e49xs898q //agent_4401khqh4g71ej2a4wjqxjpctbrd
+        agentId: 'agent_0101kjs4zjkaeheabyj81h4v12gn',
         connectionType: 'websocket',
       });
     }
   }, [isWidgetOpen]);
 
   useEffect(() => {
-    console.log('Conversation', conversation.isSpeaking, conversation);
     if (!isVoiceMode) {
       setIsMicMute(true);
       return;
@@ -95,7 +93,7 @@ export function ChatWidget() {
       setIsMicMute(false);
     }
   }, [conversation.isSpeaking, isVoiceMode]);
-  // Start voice session
+
   const startVoice = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -109,17 +107,16 @@ export function ChatWidget() {
     setIsMicMute(true);
   };
 
-  // Send text message
   const handleSend = () => {
     if (!input.trim()) return;
-    if (conversation.status !== 'connected') {
-      return;
-    }
+    if (conversation.status !== 'connected') return;
+
     conversation.sendUserMessage(input);
     setMessages((prev) => [...prev, { role: 'user', message: input }]);
     setIsTyping(false);
     setInput('');
   };
+
   const handleToggleVoice = async () => {
     if (isVoiceMode) {
       stopVoice();
@@ -132,6 +129,7 @@ export function ChatWidget() {
   const handleToggleMic = () => {
     setIsMicMute((prev) => !prev);
   };
+
   const handleClose = async () => {
     if (conversation.status === 'connected') {
       await conversation.endSession();
@@ -140,31 +138,31 @@ export function ChatWidget() {
     setIsMicMute(true);
     setIsVoiceMode(false);
   };
+
   const conversationState = (() => {
     if (conversation.status !== 'connected') return null;
-
-    // AI speaking
     if (conversation.isSpeaking) return 'ai-speaking';
-
-    // Voice mode → user speaking
     if (isVoiceMode && !micMuted) return 'user-speaking';
-
-    // Text mode typing
     if (!isVoiceMode && isTyping) return 'user-typing';
-
     return null;
   })();
 
   return (
     <>
       {!isWidgetOpen && (
-        <div style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 9999 }}>
+        <div className={classes.floatingWrapper}>
+          <Tooltip
+            label="Need help? Chat with Mahe 👋"
+            position="top-start"
+            target="#chat-help"
+          ></Tooltip>
           <ActionIcon
+            id="chat-help"
             aria-label="Open chat"
             size={60}
             radius="xl"
             variant="filled"
-            color="orange"
+            className={classes.floatingButton}
             onClick={() => setOpened(true)}
           >
             <IconMessageCircle size={30} />
@@ -172,29 +170,14 @@ export function ChatWidget() {
         </div>
       )}
 
-      {/* Chat Window */}
       {isWidgetOpen && (
-        <Paper
-          shadow="lg"
-          radius="md"
-          withBorder
-          style={{
-            position: 'fixed',
-            bottom: 20,
-            right: 20,
-            width: 350,
-            height: 500,
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 9999,
-          }}
-        >
+        <Paper shadow="lg" radius="md" withBorder className={classes.glassContainer}>
           {/* Header */}
-          <Group justify="space-between" p="sm" className={classes['chat-header']}>
-            <Text fw={600} c="white">
+          <Group justify="space-between" p="sm" className={classes.chatHeader}>
+            <Text fw={600} className={classes.headerTitle}>
               AI Assistant
             </Text>
-            <ActionIcon color="white" variant="subtle" onClick={handleClose}>
+            <ActionIcon variant="subtle" className={classes.headerClose} onClick={handleClose}>
               <IconX size={18} />
             </ActionIcon>
           </Group>
@@ -205,63 +188,30 @@ export function ChatWidget() {
               {messages.map((msg, index) => (
                 <Box
                   key={index}
-                  p="xs"
-                  bg={msg.role === 'user' ? 'orange.5' : 'gray.1'}
-                  style={{
-                    alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
-                    borderRadius: 8,
-                    maxWidth: '80%',
-                    color: msg.role === 'user' ? 'white' : 'black',
-                  }}
+                  className={msg.role === 'user' ? classes.userBubble : classes.agentBubble}
                 >
                   <Text size="sm">{msg.message}</Text>
                 </Box>
               ))}
             </Stack>
+
             <Stack>
               <Space h="xs" />
-              {/* Conversation Status Bubble */}
+
               {conversationState === 'ai-speaking' && (
-                <Box
-                  p="xs"
-                  bg="gray.2"
-                  style={{
-                    alignSelf: 'flex-end',
-                    borderRadius: 8,
-                    maxWidth: '70%',
-                    opacity: 0.8,
-                  }}
-                >
+                <Box className={classes.statusBubble}>
                   <Text size="sm">User Listening...</Text>
                 </Box>
               )}
 
               {conversationState === 'user-speaking' && (
-                <Box
-                  p="xs"
-                  bg="blue.0"
-                  style={{
-                    alignSelf: 'flex-start',
-                    borderRadius: 8,
-                    maxWidth: '70%',
-                    opacity: 0.8,
-                  }}
-                >
+                <Box className={classes.statusBubble}>
                   <Text size="sm">AI Listening...</Text>
                 </Box>
               )}
 
               {conversationState === 'user-typing' && (
-                <Box
-                  p="xs"
-                  bg="blue.0"
-                  style={{
-                    alignSelf: 'flex-end',
-                    borderRadius: 8,
-                    maxWidth: '70%',
-                    opacity: 0.8,
-                  }}
-                >
+                <Box className={classes.statusBubble}>
                   <Text size="sm">Typing...</Text>
                 </Box>
               )}
@@ -269,8 +219,9 @@ export function ChatWidget() {
           </ScrollArea>
 
           {/* Footer */}
-          <Group p="sm">
+          <Group p="sm" className={classes.footer}>
             <TextInput
+              className={classes.glassInput}
               placeholder="Type a message..."
               value={input}
               onChange={(e) => {
@@ -284,8 +235,8 @@ export function ChatWidget() {
             />
 
             <ActionIcon
-              color="blue"
               variant="filled"
+              className={classes.iconButton}
               onClick={handleSend}
               disabled={conversation.isSpeaking}
             >
@@ -293,28 +244,28 @@ export function ChatWidget() {
             </ActionIcon>
             {!isVoiceMode ? (
               <ActionIcon
-                color="blue"
-                disabled={conversation.isSpeaking}
                 variant="filled"
+                className={classes.iconButton}
+                disabled={conversation.isSpeaking}
                 onClick={handleToggleVoice}
               >
                 <IconPhoneOutgoing size={18} />
               </ActionIcon>
             ) : (
-              <Group>
+              <Group gap="xs">
                 <ActionIcon
-                  color={micMuted ? 'red' : 'green'}
-                  disabled={conversation.isSpeaking}
                   variant="filled"
+                  className={`${classes.iconButton} ${micMuted ? classes.muted : classes.active}`}
+                  disabled={conversation.isSpeaking}
                   onClick={handleToggleMic}
                 >
                   <IconMicrophone size={18} />
                 </ActionIcon>
 
                 <ActionIcon
-                  color="red"
-                  disabled={conversation.isSpeaking}
                   variant="filled"
+                  className={`${classes.iconButton} ${classes.endCall}`}
+                  disabled={conversation.isSpeaking}
                   onClick={handleToggleVoice}
                 >
                   <IconPhoneOff size={18} />
