@@ -81,14 +81,6 @@ export default async function ProductList({ searchParams }: { searchParams: Sear
           alt="Electronics"
           height={400}
         />
-        <CarouselSlide>
-          <Image
-            src="/images/banner/banner2.jpg"
-            className={classs.bannerImage}
-            alt="Electronics"
-            height={400}
-          />
-        </CarouselSlide>
       </Carousel>
       <Container size="xl" py="xl" className={classs['container-div']}>
         <ChatWidget />
