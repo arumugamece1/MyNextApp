@@ -21,18 +21,18 @@ export default function FilterBar() {
     if (!categoryValue) return;
     const params = new URLSearchParams(searchParams.toString());
     params.set('category', categoryValue);
-    route.push(`/products?${params.toString()}`);
+    route.push(`/products?${params.toString()}`, { scroll: false });
   }, [categoryValue]);
   const handleClearFilter = () => {
     setCategoryValue('');
     setRangeValue([0, 1000]);
-    route.push(`/products`);
+    route.push(`/products`, { scroll: false });
   };
   const handleChangeRange = (value: [number, number]) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('min', value[0].toString());
     params.set('max', value[1].toString());
-    route.push(`/products?${params.toString()}`);
+    route.push(`/products?${params.toString()}`, { scroll: false });
   };
   return (
     <>

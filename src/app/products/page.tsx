@@ -11,6 +11,7 @@ import {
   CardSection,
   Space,
 } from '@mantine/core';
+import { Carousel, CarouselSlide } from '@mantine/carousel';
 import Link from 'next/link';
 import classs from '@/app/products/products.module.scss';
 import { ChatWidget } from '@/components/chat/ChatWidget';
@@ -34,6 +35,61 @@ export default async function ProductList({ searchParams }: { searchParams: Sear
   return (
     <div>
       <Header />
+      <Carousel
+        withIndicators
+        className={classs.bannerCarousel}
+        height={400}
+        slideSize="100%"
+        slideGap="xl"
+        emblaOptions={{ loop: true, align: 'start', slidesToScroll: 1 }}
+      >
+        <CarouselSlide>
+          <Image
+            src="/images/banner/banner1.jpg"
+            className={classs.bannerImage}
+            alt="Electronics"
+            height={400}
+          />
+        </CarouselSlide>
+        <CarouselSlide>
+          <Image
+            src="/images/banner/banner5.jpg"
+            className={classs.bannerImage}
+            alt="Electronics"
+            height={400}
+          />
+        </CarouselSlide>
+        <CarouselSlide>
+          <Image
+            src="/images/banner/banner3.jpg"
+            className={classs.bannerImage}
+            alt="Electronics"
+            height={400}
+          />
+        </CarouselSlide>
+        <CarouselSlide>
+          <Image
+            src="/images/banner/banner4.jpg"
+            className={classs.bannerImage}
+            alt="Electronics"
+            height={400}
+          />
+        </CarouselSlide>
+        <Image
+          src="/images/banner/banner2.jpg"
+          className={classs.bannerImage}
+          alt="Electronics"
+          height={400}
+        />
+        <CarouselSlide>
+          <Image
+            src="/images/banner/banner2.jpg"
+            className={classs.bannerImage}
+            alt="Electronics"
+            height={400}
+          />
+        </CarouselSlide>
+      </Carousel>
       <Container size="xl" py="xl" className={classs['container-div']}>
         <ChatWidget />
         <aside>

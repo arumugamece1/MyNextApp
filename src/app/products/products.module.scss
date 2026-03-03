@@ -111,7 +111,12 @@
   transition: transform 0.3s ease-in-out;
   display: block;
 }
-
+.bannerImage {
+  object-fit: cover;
+}
+.bannerCarousel {
+  top: -60px;
+}
 .product-card {
   /* glass baseline (applies only if your JSX already uses .product-card) */
   background: var(--glass-bg);

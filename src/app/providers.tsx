@@ -7,7 +7,7 @@ import { ActionIcon } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 import '@mantine/core/styles.css';
-
+import '@mantine/carousel/styles.css';
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [colorScheme, setColorScheme] = useState<'light' | 'dark'>('light');
 
